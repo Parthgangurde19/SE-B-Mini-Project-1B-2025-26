@@ -1,0 +1,50 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css|png|jpg|jpeg|gif|svg|webp|woff|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "codeclub-b8e50",
+          "appId": "1:306909454051:android:fb4bdd5e8e9d83830c2fd6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "codeclub-b8e50",
+          "configurations": {
+            "android": "1:306909454051:android:fb4bdd5e8e9d83830c2fd6",
+            "ios": "1:306909454051:ios:3082724df81d488f0c2fd6",
+            "macos": "1:306909454051:ios:3082724df81d488f0c2fd6",
+            "web": "1:306909454051:web:f1798811a65338400c2fd6",
+            "windows": "1:306909454051:web:4dde77a122c7f7bc0c2fd6"
+          }
+        }
+      }
+    }
+  }
+}

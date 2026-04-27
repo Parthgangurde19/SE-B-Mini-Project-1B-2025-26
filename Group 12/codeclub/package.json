@@ -1,0 +1,29 @@
+{
+  "name": "codeclub",
+  "version": "1.0.0",
+  "description": "CodeClub is a Flutter-based application designed to help students find their perfect hackathon team. It allows users to create profiles, search for team members, and collaborate effectively.",
+  "main": "setAdminClaim.js",
+  "directories": {
+    "doc": "doc",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pushkar3232/CodeClub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Pushkar3232/CodeClub/issues"
+  },
+  "homepage": "https://github.com/Pushkar3232/CodeClub#readme",
+  "dependencies": {
+    "firebase-admin": "^13.7.0"
+  }
+}

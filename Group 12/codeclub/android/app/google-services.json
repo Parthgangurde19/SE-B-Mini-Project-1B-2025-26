@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "306909454051",
+    "project_id": "codeclub-b8e50",
+    "storage_bucket": "codeclub-b8e50.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306909454051:android:fb4bdd5e8e9d83830c2fd6",
+        "android_client_info": {
+          "package_name": "com.example.codeclub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpA0WKmrRigpZz1BsNlE-pmzcPjJi_Veo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
