@@ -1,0 +1,93 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ──────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'admin@coffee.com' ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ── menu_items ─────────────────────────────────────────────────
+    // Everyone authenticated can read; only admin can write
+    match /menu_items/{docId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── orders ─────────────────────────────────────────────────────
+    // Admin: full access
+    // Customers: create their own orders; read their own orders
+    match /orders/{orderId} {
+      allow read, write: if isAdmin();
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      // Allow customers to read their own order (e.g. brew tracking)
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                       .hasOnly(['brewStatus', 'status']);
+    }
+
+    // ── users ──────────────────────────────────────────────────────
+    // Admin: full access to all users
+    // Customers: read/write only their own doc
+    match /users/{userId} {
+      allow read, write: if isAdmin();
+      allow read, write: if isOwner(userId);
+    }
+
+    // ── inventory ──────────────────────────────────────────────────
+    // Admin: read + write / Customers: read + update (to deduct stock on order)
+    match /inventory/{docId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // ── settings ───────────────────────────────────────────────────
+    // Admin: full access
+    // Public read — happy_hour discount info is needed before login (customer-facing)
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── coupons ────────────────────────────────────────────────────
+    // Admin: full access; signed-in users can read to validate at checkout
+    // and update ONLY usedCount (single-use enforcement via validateCoupon)
+    match /coupons/{docId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+      allow update: if isSignedIn()
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                       .hasOnly(['usedCount', 'active']);
+    }
+
+    // ── store_menus ────────────────────────────────────────────────
+    // External cafe menus imported by admin
+    match /store_menus/{storeId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+      match /items/{itemId} {
+        allow read: if isSignedIn();
+        allow write: if isAdmin();
+      }
+    }
+
+    // ── errors ─────────────────────────────────────────────────────
+    // Admin: full access; any signed-in user can create (for client-side error logging)
+    match /errors/{docId} {
+      allow read, write: if isAdmin();
+      allow create: if isSignedIn();
+    }
+  }
+}

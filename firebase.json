@@ -1,0 +1,26 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "coffee-1919",
+          "appId": "1:369807633070:android:c78e400e71f9873a54db3f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "coffee-1919",
+          "configurations": {
+            "android": "1:369807633070:android:c78e400e71f9873a54db3f",
+            "web": "1:369807633070:web:b0cf0378d9ee167154db3f"
+          }
+        }
+      }
+    }
+  }
+}
